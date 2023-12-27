@@ -1,10 +1,10 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-import logging
-from apscheduler.schedulers.background import BackgroundScheduler
+
 
 # 라우트 파일 가져오기
 from routes.weather import get_weather
+from routes.hourly_weather import get_hourly_weather
 from routes.strays import parsing_strays
 from dao.stray_dao import insert_strays
 
@@ -23,6 +23,7 @@ def home():
 
 # 날씨 API 라우트
 app.add_url_rule('/api/weather', 'get_weather', get_weather, methods=['GET'])
+app.add_url_rule('/api/hourly_weather', 'get_hourly_weather', get_hourly_weather, methods=['GET'])
 app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'])
 
 
