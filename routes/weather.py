@@ -56,20 +56,20 @@ def get_weather():
     try:
         r = requests.get(url, params=req_parameter)
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred while making a request: {e}")
+        # print(f"An error occurred while making a request: {e}")
         return json.dumps({"error": str(e)}, ensure_ascii=False)
 
     # JSON 형태로 응답받은 데이터를 딕셔너리로 변환
     dict_data = r.json()
 
     # 출력을 이쁘게 하기 위해 json.dumps()를 사용하여 들여쓰기(indent) 옵션을 지정
-    print(json.dumps(dict_data, indent=2))
+    # print(json.dumps(dict_data, indent=2))
 
     # 딕셔너리 데이터를 분석하여 원하는 데이터를 추출
     weather_items = dict_data['response']['body']['items']['item']
 
-    print(f"[ 발표 날짜 : {weather_items[0]['baseDate']} ]")
-    print(f"[ 발표 시간 : {weather_items[0]['baseTime']} ]")
+    # print(f"[ 발표 날짜 : {weather_items[0]['baseDate']} ]")
+    # print(f"[ 발표 시간 : {weather_items[0]['baseTime']} ]")
 
     weather_data = {}
 

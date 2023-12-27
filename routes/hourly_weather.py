@@ -1,6 +1,6 @@
-import datetime
 import json
-
+import datetime
+import pytz
 from flask import Flask, jsonify, request
 import requests
 
@@ -17,14 +17,10 @@ def get_hourly_weather():
     # 날짜 및 시간 설정
     now = datetime.datetime.now()
     date = now.strftime('%Y%m%d')
-    if now.minute < 30:
-        now = now - datetime.timedelta(hours=2)
-        time = now.strftime('%H%M')
-        print(time)
-    else:
-        now = now - datetime.timedelta(hours=1)
-        time = now.strftime('%H%M')
-        print(time)
+    korea_timezone = pytz.timezone("Asia/Seoul")
+    now = now - datetime.timedelta(hours=3)
+    time = now.strftime('%H00')
+
     # 예보 요청 주소 및 요청 변수 지정
     forecast_url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'
     API_KEY = 'Olxg1mLV/06zroxq+lNMTBH/PN1lq6uMU4NXhdDoeRAOXvszXzU8lChRY2zuMSqh5BN0vXrilLTQ+/FXdwDRHg=='
@@ -36,7 +32,6 @@ def get_hourly_weather():
     # 응답 데이터 형식 지정
     data_type = 'JSON'
 
-    print(time)
     forecast_parameter = {
         'ServiceKey': API_KEY,
         'nx': x, 'ny': y,
@@ -49,7 +44,7 @@ def get_hourly_weather():
     try:
         forecast_response = requests.get(forecast_url, params=forecast_parameter)
         forecast_data = forecast_response.json()
-        print("API Response:", json.dumps(forecast_data, indent=4))
+        # print("API Response:", json.dumps(forecast_data, indent=4))
 
         if 'response' in forecast_data and 'body' in forecast_data['response']:
             forecast_items = forecast_data['response']['body']['items']['item']
@@ -58,9 +53,21 @@ def get_hourly_weather():
     except requests.exceptions.RequestException as e:
         return jsonify({"error": str(e)})
 
+    # 현재 날짜와 시간을 YYYYMMDDHHMM 형식으로 설정
+    now = datetime.datetime.now(korea_timezone)
+    current_datetime = now.strftime("%Y%m%d%H00")
+
+    print(current_datetime)
     forecast_weather_data = {}
+
     for item in forecast_items:
+        # 예보 날짜와 시간을 YYYYMMDDHHMM 형식으로 설정
         forecast_date_time = item['fcstDate'] + item['fcstTime']
+
+        if int(forecast_date_time) < int(current_datetime):
+            print()
+            continue
+
         category = item['category']
         value = item['fcstValue']
 
@@ -87,7 +94,8 @@ def get_hourly_weather():
                 forecast_weather_data.setdefault(forecast_date_time, {})['wind'] = f"{value}m/s"
 
     forecast_weather_data = json.dumps(forecast_weather_data, ensure_ascii=False, indent=4)
-    print('응답값' + forecast_weather_data)
+    print("API Response:", json.dumps(forecast_weather_data, indent=4))
+
     return forecast_weather_data
 
 
