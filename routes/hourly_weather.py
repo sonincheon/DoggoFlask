@@ -20,10 +20,18 @@ def calculate_forecast_time():
 
 def process_forecast_data(forecast_items):
     forecast_weather_data = {}
+    now = datetime.datetime.now(pytz.timezone("Asia/Seoul"))
+    current_hour_key = now.strftime('%Y%m%d%H00')
+
     for item in forecast_items:
         forecast_date_time = item['fcstDate'] + item['fcstTime']
         category = item['category']
         value = item['fcstValue']
+        # 시간값이 현재 시간대보다 뒤쳐진경우 필요없으니 생략
+        # 현재 시간대와 같거나 이후의 데이터만 포함
+        if forecast_date_time >= current_hour_key:
+
+            pass
 
         if category in ['TMP', 'REH', 'PCP', 'PTY', 'WSD', 'POP', 'SKY']:
             if category == 'TMP':
@@ -60,7 +68,7 @@ def get_hourly_weather():
     forecast_url = 'http://apis.data.go.kr/1360000/VilageFcstInfoService_2.0/getVilageFcst'
     API_KEY = 'Olxg1mLV/06zroxq+lNMTBH/PN1lq6uMU4NXhdDoeRAOXvszXzU8lChRY2zuMSqh5BN0vXrilLTQ+/FXdwDRHg=='
 
-    num_of_rows = 1000
+    num_of_rows = 300
     page_no = 1
     data_type = 'JSON'
 

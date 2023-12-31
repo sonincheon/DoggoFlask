@@ -67,7 +67,7 @@ def get_weather():
 
     # 딕셔너리 데이터를 분석하여 원하는 데이터를 추출
     weather_items = dict_data['response']['body']['items']['item']
-
+    print(weather_items)
     # print(f"[ 발표 날짜 : {weather_items[0]['baseDate']} ]")
     # print(f"[ 발표 시간 : {weather_items[0]['baseTime']} ]")
 
