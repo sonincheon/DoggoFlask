@@ -22,38 +22,35 @@ def process_forecast_data(forecast_items):
     forecast_weather_data = {}
     now = datetime.datetime.now(pytz.timezone("Asia/Seoul"))
     current_hour_key = now.strftime('%Y%m%d%H00')
-
+    print(current_hour_key)
     for item in forecast_items:
         forecast_date_time = item['fcstDate'] + item['fcstTime']
         category = item['category']
         value = item['fcstValue']
-        # 시간값이 현재 시간대보다 뒤쳐진경우 필요없으니 생략
+
         # 현재 시간대와 같거나 이후의 데이터만 포함
         if forecast_date_time >= current_hour_key:
-
-            pass
-
-        if category in ['TMP', 'REH', 'PCP', 'PTY', 'WSD', 'POP', 'SKY']:
-            if category == 'TMP':
-                forecast_weather_data.setdefault(forecast_date_time, {})['temperature'] = f"{value}°"
-            elif category == 'REH':
-                forecast_weather_data.setdefault(forecast_date_time, {})['humidity'] = f"{value}%"
-            elif category == 'PCP':
-                forecast_weather_data.setdefault(forecast_date_time, {})['condition'] = value
-            elif category == 'SKY':
-                skies = {
-                    '1': '맑음',
-                    '3': '구름많음',
-                    '4': '흐림'
-                }
-                sky_condition = skies.get(value, "Unknown")
-                forecast_weather_data.setdefault(forecast_date_time, {})['sky'] = sky_condition
-            elif category == 'POP':
-                forecast_weather_data.setdefault(forecast_date_time, {})['rain_chance'] = f"{value}%"
-            elif category == 'PTY':
-                forecast_weather_data.setdefault(forecast_date_time, {})['rain'] = f"{value}mm"
-            elif category == 'WSD':
-                forecast_weather_data.setdefault(forecast_date_time, {})['wind'] = f"{value}m/s"
+            if category in ['TMP', 'REH', 'PCP', 'PTY', 'WSD', 'POP', 'SKY']:
+                if category == 'TMP':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['temperature'] = f"{value}°"
+                elif category == 'REH':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['humidity'] = f"{value}%"
+                elif category == 'PCP':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['condition'] = value
+                elif category == 'SKY':
+                    skies = {
+                        '1': '맑음',
+                        '3': '구름많음',
+                        '4': '흐림'
+                    }
+                    sky_condition = skies.get(value, "Unknown")
+                    forecast_weather_data.setdefault(forecast_date_time, {})['sky'] = sky_condition
+                elif category == 'POP':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['rain_chance'] = f"{value}%"
+                elif category == 'PTY':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['rain'] = f"{value}mm"
+                elif category == 'WSD':
+                    forecast_weather_data.setdefault(forecast_date_time, {})['wind'] = f"{value}m/s"
 
     return forecast_weather_data
 
