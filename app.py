@@ -1,6 +1,6 @@
 from flask import Flask, render_template
 from flask_cors import CORS
-
+from flask_sslify import SSLify
 
 # 라우트 파일 가져오기
 from routes.weather import get_weather
@@ -10,6 +10,7 @@ from dao.stray_dao import insert_strays
 
 app = Flask(__name__)
 CORS(app, origins=['*'])
+sslify = SSLify(app)
 
 
 # 로깅 설정
@@ -25,7 +26,6 @@ def home():
 app.add_url_rule('/api/weather', 'get_weather', get_weather, methods=['GET'])
 app.add_url_rule('/api/hourly_weather', 'get_hourly_weather', get_hourly_weather, methods=['GET'])
 app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'])
-
 
 # 스케줄러 작업 정의
 # def strays_task():
