@@ -7,7 +7,7 @@ import requests
 app = Flask(__name__)
 
 
-@app.route('/api/weather', methods=['GET'])
+@app.route('/api/weather2', methods=['GET'])
 def get_weather():
     # 리액트에서 전송한 x, y 좌표를 받음
 

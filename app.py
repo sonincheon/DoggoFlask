@@ -23,7 +23,7 @@ def home():
 
 
 # 날씨 API 라우트
-app.add_url_rule('/api/weather', 'get_weather', get_weather, methods=['GET'])
+app.add_url_rule('/api/weather2', 'get_weather', get_weather, methods=['GET'])
 app.add_url_rule('/api/hourly_weather', 'get_hourly_weather', get_hourly_weather, methods=['GET'])
 app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'])
 
@@ -35,4 +35,7 @@ app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(ssl_context=('/usr/lib/python3/dist-packages/certifi/cacert.pem', '/etc/ssl/key.pem'))
+
+
+
