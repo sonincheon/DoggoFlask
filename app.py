@@ -35,7 +35,8 @@ app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'
 
 
 if __name__ == '__main__':
-    app.run(ssl_context=('/usr/lib/python3/dist-packages/certifi/cacert.pem', '/etc/ssl/key.pem'))
+    app.run(debug=True)
+    app.run(debug=True, ssl_context=('./cert.pem', './key.pem'))
 
 
 
