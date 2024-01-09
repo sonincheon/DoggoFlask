@@ -35,8 +35,9 @@ app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
-    app.run(debug=True, ssl_context=('./cert.pem', './key.pem'))
+    app.run(host='0.0.0.0', port=5000)
+    # app.run(debug=True)
+    # app.run(debug=True, ssl_context=('./cert.pem', './key.pem'))
 
 
 
