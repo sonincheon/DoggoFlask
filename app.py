@@ -38,8 +38,8 @@ app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'
 
 
 if __name__ == '__main__':
-    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 5000)), certfile='./cert.pem',
-                               keyfile='./key.pem', server_side=True)
+    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 5000)), certfile='cert.pem',
+                               keyfile='key.pem', server_side=True)
     eventlet.wsgi.server(server, app)
 
 
