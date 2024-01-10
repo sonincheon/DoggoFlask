@@ -1,19 +1,18 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, logging
 from flask_cors import CORS
-from flask_sslify import SSLify
 
 import eventlet
 import eventlet.wsgi
-
+import ssl
 # 라우트 파일 가져오기
 from routes.weather import get_weather
 from routes.hourly_weather import get_hourly_weather
 from routes.strays import parsing_strays
+
 # from dao.stray_dao import insert_strays
 
 app = Flask(__name__)
 CORS(app, origins=['*'])
-sslify = SSLify(app)
 
 
 # 로깅 설정
@@ -38,8 +37,6 @@ app.add_url_rule('/api/strays', 'parsing_strays', parsing_strays, methods=['GET'
 
 
 if __name__ == '__main__':
-    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 5000)),  server_side=True)
+    server = eventlet.wrap_ssl(eventlet.listen(('0.0.0.0', 5000)), certfile='cert.pem',
+                               keyfile='key.pem', server_side=True)
     eventlet.wsgi.server(server, app)
-
-
-
