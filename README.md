@@ -1,6 +1,7 @@
 
 ## AWS 배포 사이트 : https://www.petmemoir.store/
-
+![notion용](https://github.com/sonincheon/Doggo-frontend/assets/142462485/c23a0c72-e634-4726-a5ac-dff07aef02aa)
+![notion용2](https://github.com/sonincheon/Doggo-frontend/assets/142462485/7b5170f2-9ee8-4909-a375-88005d807c9a)
 ---
 ## 손인천 담당 기능 요약 ##
 
